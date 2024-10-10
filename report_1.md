@@ -79,12 +79,12 @@
 ### Searching for Manuals
 - Commands used: man man; man -k challenge; man txquyaewtr; /challenge/challenge -txquyaewtr 599
 ### Helpful Programs
--Commands used: /challenge/challenge -p(returns int value to enter as argument to obtain flag); /challenge/challenge -g 998
+- Commands used: /challenge/challenge -p(returns int value to enter as argument to obtain flag); /challenge/challenge -g 998
 ### Help for Builtins
--Commands used: help challenge; challenge --secret <value>
+- Commands used: help challenge; challenge --secret <value>
 ## File Globbing
 ### Matching by *
-- * is a glob. When it encounters a * character in any argument, the shell will treat it as "wildcard" and try to replace that argument with any files that match the pattern.
+- '*' is a glob. When it encounters a * character in any argument, the shell will treat it as "wildcard" and try to replace that argument with any files that match the pattern.
 - Commands used: cd /ch*; /challenge/run
 ###  Matching with ?
 - When it encounters a ? character in any argument, the shell will treat it as single-character wildcard. This works like *, but only matches one character.
@@ -101,5 +101,36 @@
 - Commands used: /challenge/run [^pwn]*
 ## Practicing Piping
 ### Redirecting Output
-- > is used to redirect stdout to files
-- 
+- '>' is used to redirect stdout to files
+- Commands Used: echo PWN > COLLEGE
+### Redirecting more output
+- Commands Used: /challenge/run > myflag; cat myflag
+### Appending output
+- You can redirect input in append mode using >> instead of >
+- Commands used: /challenge/run >> /home/hacker/the-flag; cat the-flag
+### Redirecting errors
+- A File Descriptor (FD) is a number the describes a communication channel in Linux
+- FD 0: Standard Input
+- FD 1: Standard Output
+- FD 2: Standard Error
+- a > without a number implies 1>, which redirects FD 1 (Standard Output)
+- Commands used: /challenge/run > myflag 2> instructions; cat myflag
+### Redirecting input
+- Use < to redirect input to a program
+- Commands Used: echo COLLEGE > PWN; /challenge/run < PWN
+### Grepping stored results
+- Commands Used: /challenge/run > /tmp/data.txt; grep pwn /tmp/data.txt
+### Grepping live results
+- the | (pipe) operator: Standard output from the command to the left of the pipe will be connected to (piped into) the standard input of the command to the right of the pipe.
+- Commands Used: /challenge/run | grep pwn
+### Grepping errors
+- The shell has a >& operator, which redirects a file descriptor to another file descriptor. This means that we can have a two-step process to grep through errors: first, we redirect standard error to standard output (2>& 1) and then pipe the now-combined stderr and stdout as normal (|)
+- Commands Used: /challenge/run 2>&1 | grep pwn
+### Duplicating piped data with tee
+- The tee command, named after a "T-splitter" from plumbing pipes, duplicates data flowing through your pipes to any number of files provided on the command line.
+- Commands used: /challenge/pwn | tee intercepted_output | /challenge/college; cat intercepted_output; /challenge/pwn --secret AqjfFt1z | /challenge/college
+### Writing to multiple programs
+- Commands used: /challenge/hack | tee >( /challenge/the ) >( /challenge/planet )
+### Split-piping stderr and stdout
+- the challenge is that the | operator links the stdout of the left command with the stdin of the right command.
+- Commands Used: /challenge/hack > > /challenge/planet 2> > /challenge/the
