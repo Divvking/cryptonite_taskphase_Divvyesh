@@ -36,4 +36,60 @@
 - cat will concatenate 2 files if multiple arguments are given
 - if no arguments are given, cat will read from the terminal input and output it.
 - Commands used: cat /flag
-### 
+### catting absolute paths
+- Commands used: cat /flag
+### more catting practice
+- Commands used: cat /usr/share/distro-info/flag
+### grepping for a needle in a haystack
+- Sometimes, the files that are called by cat are too large, grep command solves this problem as it allows us to search in the contents
+- Commands used: grep pwn.college /challenge/data.txt
+### listing files
+- ls will list files in all the directories provided to it as arguments, and in the current directory if no arguments are provided.
+- Commands used: ls /challenge; /challenge/15492-renamed-run-4966
+### touching files
+- You can create a new, blank file by touching it with the touch command
+- Commands used: touch /tmp/pwn; touch /tmp/college; /challenge/run
+### removing files
+- You can delete/remove a file in Linux using the rm command.
+- Commands used: rm delete_me; /challenge/check
+### hidden files
+- Invoke ls with -a flag to view hidden files
+- Commands used: ls / -a
+### An Epic Filesystem Quest
+- Commands used: Repetitive use of ls; ls -a; cat; cd
+### making directories
+- Use mkdir to create a directory
+- Commands used: cd; mkdir pwn; touch college; /challenge/run
+### finding files
+- The find command takes optional arguments describing the search criteria and the search location. If you don't specify a search criteria, find matches every file. If you don't specify a search location, find uses the current working directory (.).
+- Commands used: find / -name flag; cat /path
+### linking files
+- Symbolic links are created with the ln command with the -s argument
+- Commands used: ln -s /flag /home/hacker/not-the-flag
+## Digesting Documentation
+### Learning from Documentation
+- The correct usage of programs depends, in a large part, in the proper specification of arguments to them.
+- Commands used: /challenge/challenge --giveflag
+### Learning Complex Usage
+- Commands used: /challenge/challenge --printfile /flag
+### Reading Manuals
+- Commands used: man challenge;/challenge/challenge --jfrbcz 448
+### Searching Manuals
+- Commands used: man challenge; /flag
+### Searching for Manuals
+- Commands used: man man; man -k challenge; man txquyaewtr; /challenge/challenge -txquyaewtr 599
+### Helpful Programs
+-Commands used: /challenge/challenge -p(returns int value to enter as argument to obtain flag); /challenge/challenge -g 998
+### Help for Builtins
+-Commands used: help challenge; challenge --secret <value>
+## File Globbing
+### Matching by *
+- * is a glob. When it encounters a * character in any argument, the shell will treat it as "wildcard" and try to replace that argument with any files that match the pattern.
+- Commands used: cd /ch*; /challenge/run
+##  Matching with ?
+- When it encounters a ? character in any argument, the shell will treat it as single-character wildcard. This works like *, but only matches one character.
+- Commands used: cd /?ha??enge; /challenge/run
+## Matching with []
+- The square brackes are, essentially, a limited form of ?, in that instead of matching any character, [] is a wildcard for some subset of potential characters, specified within the brackets.
+- Commands used: cd /challenge/files; /challenge/run file_[bash]
+## 
