@@ -86,10 +86,20 @@
 ### Matching by *
 - * is a glob. When it encounters a * character in any argument, the shell will treat it as "wildcard" and try to replace that argument with any files that match the pattern.
 - Commands used: cd /ch*; /challenge/run
-##  Matching with ?
+###  Matching with ?
 - When it encounters a ? character in any argument, the shell will treat it as single-character wildcard. This works like *, but only matches one character.
 - Commands used: cd /?ha??enge; /challenge/run
-## Matching with []
+### Matching with []
 - The square brackes are, essentially, a limited form of ?, in that instead of matching any character, [] is a wildcard for some subset of potential characters, specified within the brackets.
 - Commands used: cd /challenge/files; /challenge/run file_[bash]
-## 
+### Matching paths with []
+- Commands used: /challenge/run /challenge/files/file_[bash]
+### Mixing globs
+- Commands used: /challenge/run [cep]*
+### Exclusionary Globbing
+- If the first character in the brackets is a ! or (in newer versions of bash) a ^, the glob inverts, and that bracket instance matches characters that aren't listed.
+- Commands used: /challenge/run [^pwn]*
+## Practicing Piping
+### Redirecting Output
+- > is used to redirect stdout to files
+- 
