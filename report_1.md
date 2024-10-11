@@ -134,3 +134,31 @@
 ### Split-piping stderr and stdout
 - the challenge is that the | operator links the stdout of the left command with the stdin of the right command.
 - Commands Used: /challenge/hack > > /challenge/planet 2> > /challenge/the
+## Shell Variables
+### Printing Variables
+- Variables can be printed by using echo command and prefixing $ to the variable name
+- Commands Used: echo #FLAG
+### Setting Variables
+- Use <var_name>=<value> to assign a value to a variable (no spaces)
+- The $ is only prepended to access variables.
+- Commands Used: PWN=COLLEGE
+### Multi-word Variables
+- Use double quotes to read the part after = as a single token.
+- Commands Used: PWN="COLLEGE YEAH"
+### Exporting Variables
+- When you export your variables, they are passed into the environment variables of child processes.
+- To go to the child shell use sh
+- Commands Used: PWN=COLLEGE; COLLEGE=PWN; export PWN; sh; /challenge/run PWN
+### Printing Exported Variables
+- env command: it'll print out every exported variable set in your shell
+- Command used: env
+### Storing Command Output
+- One can read the output of a command by storing it in a variable
+- Command Used: PWN=$(/challenge/run); echo $PWN
+### Reading Input
+- To read input from user use 'read'
+- -p argument lets you specify a prompt
+- Commands Used: read -p "INPUT:" PWN
+### Reading Files
+- files can be read with the shell using read
+- Commands Used: read PWN < /challenge/read_me
