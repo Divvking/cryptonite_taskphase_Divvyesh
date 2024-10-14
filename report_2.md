@@ -58,7 +58,11 @@ These two methods, ps -ef and ps aux result in slightly different, but cross-rec
 ## Perceiving Permissions
 - Learnt about Linux Permissions. You can check out a permissions of a file or directory using ls -l.
 ### Changing File Ownership
-- 
-### Changing File Ownership
+- We can change the ownership of files via the chown (change owner) command.
+- Typically, chown can only be invoked by the root user.
+- Commands Used: chown hacker /flag; cat /flag
+#### Output
+![image](https://github.com/user-attachments/assets/224ccaff-fbb8-4094-a768-619f4c31f370)
+
 
 
