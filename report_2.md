@@ -1,4 +1,4 @@
-## Processes and Jobs
+![image](https://github.com/user-attachments/assets/b39c4665-5b45-437b-a8c1-a6f3749a314e)## Processes and Jobs
 - This module taught me how to view and interact with processes in various mannersComputers execute various programs to complete instructions and tasks. In modern computing, software is split into two categories: operating system kernels and processes. When Linux starts up, it launches an initialiser(init) process that launches other processes which launch more processes until the command line shell is obtained. The shell launches processes in response to the commands the user enters.
 
 ### Listing Processes
@@ -123,6 +123,89 @@ These two methods, ps -ef and ps aux result in slightly different, but cross-rec
 #### Output
 ![image](https://github.com/user-attachments/assets/e2b142bc-6e0a-434c-b928-dcc8572703ab)
 ## Untangling Users
-
-
-
+### Becoming root with su
+- su is a setuid binary. Because it has the SUID bit set, su runs as root. Running as root, it can start a root shell. Before allowing the user to elevate privileges to root, it checks to make sure that the user knows the root password.
+#### Thought Process
+- Password is given as hack-the-planet, Provide it to su
+#### Output
+![image](https://github.com/user-attachments/assets/e2fdc411-3000-4351-b55f-d1dd477cb164)
+### Other users with su
+- Giving a username as an argument to su allows to switch to that user
+#### Thought Process
+- Switch to zardus user, give password dont-hack-me, then run /challenge/run
+#### Output
+![image](https://github.com/user-attachments/assets/952af01c-d3d5-4c06-8151-908773fc36f3)
+### Cracking passwords
+- When you enter a password for su, it compares it against the stored password for that user. These passwords used to be stored in /etc/passwd, but because /etc/passwd is a globally-readable file, this is not good for passwords, these were moved to /etc/shadow.
+- When you input a password into su, it one-way-encrypts (hashes) it and compares the result against the stored value. If the result matches, su grants you access to the user.
+- use john command
+#### Thought Process
+- Use john command to find password of zardus
+- aardvark         (zardus)
+- do su zardus
+#### Output
+![image](https://github.com/user-attachments/assets/23016d1b-856d-461d-9983-cf82c4a785a6)
+### Using sudo
+- Unlike su, which defaults to launching a shell as a specified user, sudo defaults to running a command as root
+- Commands Used: sudo cat /flag
+#### Output
+![image](https://github.com/user-attachments/assets/46c1b9e1-a694-493b-aa6a-c717577aa768)
+## Chaining Commands
+### Chaining with Semicolons
+- The easiest way to chain commands is ;.
+#### Thought Process
+- Use /challenge/pwn; /challenge/college
+#### Output 
+![image](https://github.com/user-attachments/assets/a05af4e5-0ff3-45d1-a2f8-b7d800dac48b)
+### Your First Shell Script
+- By convention, shell scripts are frequently named with a sh suffix
+#### Thought Process
+- Use nano or vim to open a command line editor, I used vim.
+- Enter insert mode and enter /challenge/pwn; /challenge/college
+- Press esc to get out of insert mode, then type :wq to save and exit the file
+- Run it by doing bash x.sh
+#### Output
+![image](https://github.com/user-attachments/assets/c8a9aba7-ce09-4c68-b20d-4f6fad81e0e2)
+### Redirecting Script Output
+- Shell treats .sh files like a command, so it can be piped
+#### Thought Process
+- Create a file using vim containing /challenge/pwn;/challenge/college
+- bash filename.sh|/challenge/solve
+#### Output
+![image](https://github.com/user-attachments/assets/8585cec3-4c57-4f9e-ba7e-73c6c6b7080a)
+### Executable Shell Scripts
+- No need to manually invoke bash. If your shell script file is executable, simply invoke it via its relative or absolute path.
+#### Thought Process
+- Create a file containing /challenge/solve
+- Use chmod to give execution permissions to user
+- execute file by calling path
+#### Output 
+![image](https://github.com/user-attachments/assets/d24a58d7-d57e-40fb-9148-abc182a25884)
+## Pondering PATH
+### The PATH Variable
+- There is a special shell variable, called PATH, that stores a bunch of directory paths in which the shell will search for programs corresponding to commands.
+- Without a PATH, bash cannot find the command.
+#### Thought Process
+- Redirect the PATH to either a blank string or a directory where rm is absent, causing the /challenge/run program to return flag instead.
+#### Output
+![image](https://github.com/user-attachments/assets/39851208-1347-4d84-95da-240c78c51975)
+### Setting PATH
+By adding directories to or replacing directories in this list, you can expose programs to be launched using their bare name.
+#### Thought Process
+- win command exists in /challenge/more_commands so set the PATH to that, then /challenge/run, as it calls the win command by its bare name
+#### Output
+![image](https://github.com/user-attachments/assets/afce570c-b4d0-42c0-9526-85ada78dca4c)
+### Adding Commands
+#### Thought Process
+- create a file called win, containing cat /flag
+- add a new directory to PATH by doing PATH="/home/hacker:$PATH"
+- chmod +x win
+- /challenge/run
+#### OUTPUT
+![image](https://github.com/user-attachments/assets/a20018c6-86ea-47f2-95ef-9dc24146edae)
+### Hijacking Commands
+#### Thought Process
+- create a custom script called rm in /home/hacker
+- make it do cat /flag instead
+- do PATH="/home/hacker:$PATH", this places /home/hacker at the start of the PATH variable, since it prioritises left to right, it will only run the custom rm command instead.
+- do /challenge/run
