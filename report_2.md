@@ -209,3 +209,5 @@ By adding directories to or replacing directories in this list, you can expose p
 - make it do cat /flag instead
 - do PATH="/home/hacker:$PATH", this places /home/hacker at the start of the PATH variable, since it prioritises left to right, it will only run the custom rm command instead.
 - do /challenge/run
+#### OUTPUT
+![image](https://github.com/user-attachments/assets/3b8e4b49-52d8-43f0-830d-414b89098d5b)
