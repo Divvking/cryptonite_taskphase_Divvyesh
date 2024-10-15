@@ -1,4 +1,5 @@
-![image](https://github.com/user-attachments/assets/b39c4665-5b45-437b-a8c1-a6f3749a314e)## Processes and Jobs
+![image](https://github.com/user-attachments/assets/b39c4665-5b45-437b-a8c1-a6f3749a314e)
+## Processes and Jobs
 - This module taught me how to view and interact with processes in various mannersComputers execute various programs to complete instructions and tasks. In modern computing, software is split into two categories: operating system kernels and processes. When Linux starts up, it launches an initialiser(init) process that launches other processes which launch more processes until the command line shell is obtained. The shell launches processes in response to the commands the user enters.
 
 ### Listing Processes
