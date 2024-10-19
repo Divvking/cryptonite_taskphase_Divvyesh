@@ -102,3 +102,54 @@
 - Port scanning is a method to find open ports on a host.
 - nmap is a network scanner. For this task, use -p flag to choose which ports to scan. By default, nmap scans top 1000 ports (not first 1000). To scan all 65535 ports use -p-. -sV flag scans the version/service.
 - nmap -sV localhost -p 31000-32000
+- cd /tmp
+- touch pvt.key
+- nano pvt.key, paste RSA Key obtained from attempting to use openssl s_client -connect localhost:31790
+- chmod 400 pvt.key
+- ssh -i pvt.key bandit17@localhost -p 2220
+# Level 17->18
+- diff command compares files line by line
+- diff passwords.old passwords.new
+- new password: x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+# Level 18->19
+- The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
+- ‘.bashrc’ is a file that is run every time a terminal is loaded. This means it is also run when logging in through SSH because this also loads a terminal.
+- Instead of logging into the machine with SSH, we execute a command through SSH instead. We use cat to read the .
+- ssh bandit18@bandit.labs.overthewire.org -p 2220 cat readme
+- bandit18@bandit.labs.overthewire.org's password:cGWpMaKXVwDUNgPAVJbWYuGHVn9zl3j8
+# Level 19->20
+- To gain access to the next level, you should use the setuid binary in the homedirectory. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
+- ./bandit20-do
+Run a command as another user.
+  Example: ./bandit20-do id
+- ./bandit20-do cat /etc/bandit_pass/bandit20
+- Password: 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO
+# Level 20->21
+- There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
+- Using ’netcat’, we can create a connection in server mode - which listens for inbound connection.
+- Running the setuid binary with port 1234 means it will connect to our netcat server, receive the password inputted through echo and sends back the next password.
+- echo '0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO'|nc -l -p 1234 &
+- ./suconnect 1234
+        Read: 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO
+        Password matches, sending next password
+        EeoULMCra2q0dSkYj561DX7s1CpBuOBt
+# Level 21->22
+- A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+- ls -la /etc/cron.d
+- ![image](https://github.com/user-attachments/assets/e58ead3f-fb21-4f57-aa91-e2a1fcfa5c1e)
+- This cronjob runs the /usr/bin/cronjob_bandit22.sh file as bandit22 user. The five stars indicate it is run every minute, every day. To know what exactly is executed, we need to take a look at the bash file
+- ![image](https://github.com/user-attachments/assets/986d0d5e-6eb2-43bf-b544-99ea024aeffa)
+- This file creates a file in the ’tmp’ folder and gives read permission to everyone (indicated by the last 4). Then it copies the input of the bandit22 password file into the newly created file. So the password to the next level is in this created file.
+- cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+- Password: tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q
+# Level 22->23
+- A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+NOTE: Looking at shell scripts written by other people is a very useful skill. The script for this level is intentionally made easy to read. If you are having problems understanding what it does, try executing it to see the debug information it prints.
+- ls -la /etc/cron.d
+- cat /etc/cron.d/cronjob_bandit23
+- cat /usr/bin/cronjob_bandit23.sh
+- echo I am user bandit23|md5sum|cut -d ' ' -f 1
+- cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+- Password: 0Zf11ioIjMVN551jX3CmStKLYqjk54Ga
+
