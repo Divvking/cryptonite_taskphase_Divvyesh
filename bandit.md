@@ -152,4 +152,100 @@ NOTE: Looking at shell scripts written by other people is a very useful skill. T
 - echo I am user bandit23|md5sum|cut -d ' ' -f 1
 - cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 - Password: 0Zf11ioIjMVN551jX3CmStKLYqjk54Ga
+# Level 23->24
+- ls -la /etc/cron.d
+- cat /etc/cron.d/cronjob_bandit24
+- cat /usr/bin/cronjob_bandit24.sh
+- The script executes and deletes all files in the folder ‘/var/spool/bandit24’. This is the case because it is run as bandit24 user, so the variable ‘myname’ contains the value ‘bandit24’.
+- Inside the if statement is the code to execute a script, but only if the owner is bandit23. Then the file will be deleted.
+- Creating a script to give password for bandit24
+- create inside temp folder
+- script reads the content of the file and stores in a temp folder in a temp file called password.
+- Give appropriate permissions
+- cp pswd.sh /var/spool/bandit24/foo
+- Password:gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8
+# Level 24->25
+- A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.
+- nc localhost 30002
+- #!/bin/bash
+
+for i in {0..9}{0..9}{0..9}{0..9}
+do
+
+echo "gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8 $i" >> list.txt;
+done
+cat list.txt | nc localhost 30002 > result.txt
+- sort result.txt 
+- password: iCi86ttT4KSNe1armKiwbQNmB3YJP3q4
+- ![image](https://github.com/user-attachments/assets/3f5ff6f0-b1ac-448f-a5a0-838bbfbd52cb)
+# Level 25->26
+- Try connecting to bandit26 using the ssh key given in the question
+- shell is not /bin/bash but something else
+- cat /etc/passwd|grep bandit26
+- /usr/bin/showtext is a shell
+- more command displays the contents of a file
+- If we make the terminal window smaller, more will go into command mode. reduce size of the terminal and run ssh command with RSA key again, now on 
+  clicking V, it opens vi, which is a text editor
+- To spawn a shell, we can use :shell
+- To change the shell, do :set shell=/bin/bash
+- now use :shell
+- do cat /etc/bandit_pass/bandit26
+- password: s0773xxkk0MXfdqOfPRVr9L3jJBUOgCZ
+# Level 26->27
+- bandit27-do allows user to run command as another user
+- ./bandit27-do cat /etc/bandit_pass/bandit27
+- Password: upsNCc7vzaRDx6oZC6GiR6ERwe1MowGB
+# Level 27->28
+- There is a git repository at ssh://bandit27-git@localhost/home/bandit27-git/repo via the port 2220. The password for the user bandit27-git is the same as for the user bandit27. Clone the repository and find the password for the next level.
+- git clone ssh://bandit27-git@localhost:2220/home/bandit27-git/repo
+- read the README file in the repo folder to obtain password
+- password: Yz9IpL0sBcCeuG7m9uQFt8ZNpS4HZRcN
+# Level 28->29
+- Same method as previous question, but on doing cat README.md
+- ![image](https://github.com/user-attachments/assets/888dd595-7ca9-4d63-b845-11b2dfdf6b8a)
+- This time, the README has Markdown format ('.md'). It mentions, but does not contain the password. We can take a look at the git history to see, if a past version of the README file contained the password. First, we check out the log.
+- git log
+- ![image](https://github.com/user-attachments/assets/ecdb4720-48a4-4f0d-ac61-d450d13d2bb3)
+- git show 817e303aa6c2b207ea043c7bba1bb7575dc4ea73
+- ![image](https://github.com/user-attachments/assets/86f51848-4363-44a7-91b0-7e05d67f8754)
+- password: 4pT1t5DENaYuqnqvadYs1oE4QLCdjmJ7
+# Level 29->30
+- Git branching is another feature of the version control system. It allows you to split the development into different branches. Specifically, there is a master branch from which the software can be taken and it can be separately worked on. You can change and add features while still maintaining a working master branch. Once the work is done, it can be integrated into the master branch again. This allows for additional version control.
+- There is a git repository at ssh://bandit29-git@localhost/home/bandit29-git/repo via the port 2220. The password for the user bandit29-git is the same as for the user bandit29. Clone the repository and find the password for the next level.
+- readme.md contains the following data
+- ![image](https://github.com/user-attachments/assets/1a5fc5a2-3102-4929-a5fa-447bd7dfcab1)
+- git branch -a
+- git checkout dev
+- Password in readme.md
+- Password: qp30ex3VLz5MDG1n91YowTv4Q8l7CDZL
+# Level 30->31
+- There is a git repository at ssh://bandit30-git@localhost/home/bandit30-git/repo via the port 2220. The password for the user bandit30-git is the same as for the user bandit30. Clone the repository and find the password for the next level.
+- The README does not give us any information. Checking the git tag, we find a point in the history called ‘secret’, which looks promising.
+- git tag
+- git show secret
+- Password: fb5S2xb7bRyFmAvQYQGEqsbhVyJqhnDy
+# Level 31->32
+- Same method as last question
+- Git Commit saves the currently made changes with a message describing these changes. The flag -a makes sure all modified/deleted files are staged.
+- Git Push updates local changes in remote repositories. When pushing for the first time, you should also define the branch with -u.
+- Git Ignore is a file with the filename ‘.gitignore’. In this file, all file names/extensions that should be ignored by the commit are written. This means if a file which is in the ignore file is created/changed, it will not be part of the commit/repository. Git ignore also allows for wildcards.
+- Git Add updates what files will be part of the next commit. The -f flag forces files to be able to be committed, even when they are normally ignored.
+- Contents of README.md:File name: key.txt
+                        Content: 'May I come in?'
+                        Branch: master
+- echo 'May I come in?' > key.txt
+- git add -f key.txt
+- git commit -a
+- git push -u origin master
+- password: 3O9RfhqyAlVBEZpVb6LYStshZoqoSx5K
+# Level 32->33
+- the variable $0 has a reference to a shell
+- This allows us to escape the shell
+- whoami reveals that we are bandit33
+- so we can read the password
+- cat /etc/bandit_pass/bandit33
+- Password: tQdtbs5D5i2vJwkO8mEyYEyTL8izoeJ0
+
+
+
 
